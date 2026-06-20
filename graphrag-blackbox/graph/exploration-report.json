@@ -1,0 +1,24 @@
+{
+  "endpoints" : [ {
+    "endpointId" : "get-internal-analytics-global",
+    "totalBranches" : 0,
+    "coveredBranches" : 0,
+    "missedBranches" : [ ],
+    "pathsByEngine" : {
+      "heuristic" : 1
+    },
+    "solverRelevantMissed" : 0
+  }, {
+    "endpointId" : "get-internal-analytics-mood-userid",
+    "totalBranches" : 0,
+    "coveredBranches" : 0,
+    "missedBranches" : [ ],
+    "pathsByEngine" : {
+      "heuristic" : 3
+    },
+    "solverRelevantMissed" : 0
+  } ],
+  "coveredAppBranches" : 4,
+  "totalAppBranches" : 4,
+  "coveredAppClasses" : [ "com.tainted.analytics.service.AnalyticsService" ]
+}

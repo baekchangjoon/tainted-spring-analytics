@@ -1,0 +1,434 @@
+{
+  "sutId" : "analytics",
+  "commitSha" : "unknown",
+  "endpoints" : [ {
+    "id" : "get-internal-analytics-global",
+    "httpMethod" : "GET",
+    "path" : "/internal/analytics/global",
+    "handlerClass" : "com.tainted.analytics.web.AnalyticsController",
+    "handlerMethod" : "getGlobal",
+    "params" : [ ],
+    "authRequired" : false
+  }, {
+    "id" : "get-internal-analytics-mood-userid",
+    "httpMethod" : "GET",
+    "path" : "/internal/analytics/mood/{userId}",
+    "handlerClass" : "com.tainted.analytics.web.AnalyticsController",
+    "handlerMethod" : "getUserMood",
+    "params" : [ {
+      "name" : "userId",
+      "javaType" : "java.lang.String",
+      "kind" : "PATH"
+    } ],
+    "authRequired" : false
+  } ],
+  "paths" : [ {
+    "id" : "get-internal-analytics-global-s200-1",
+    "endpointId" : "get-internal-analytics-global",
+    "sampleInput" : { },
+    "expectedStatus" : 200,
+    "sampleResponse" : {
+      "totalPoints" : 2,
+      "countBySource" : {
+        "diary" : 1,
+        "probe" : 1
+      }
+    },
+    "capturedSqlIds" : [ "sql-get-internal-analytics-global-s200-1-1", "sql-get-internal-analytics-global-s200-1-2" ],
+    "capturedHttpCallIds" : [ ],
+    "branchesTaken" : [ {
+      "classFqn" : "com.tainted.analytics.service.AnalyticsService",
+      "method" : "getGlobal",
+      "line" : 77,
+      "branchIndex" : 0
+    }, {
+      "classFqn" : "com.tainted.analytics.service.AnalyticsService",
+      "method" : "getGlobal",
+      "line" : 77,
+      "branchIndex" : 1
+    } ],
+    "discoveredBy" : "heuristic",
+    "constraints" : [ ],
+    "validationWarnings" : [ ],
+    "requiredSeedIds" : [ "seed-get-internal-analytics-global-1" ],
+    "capturedEventEmitIds" : [ ]
+  }, {
+    "id" : "get-internal-analytics-mood-userid-s200-1",
+    "endpointId" : "get-internal-analytics-mood-userid",
+    "sampleInput" : {
+      "userId" : "probe-userId-96861"
+    },
+    "expectedStatus" : 200,
+    "sampleResponse" : {
+      "userId" : "probe-userId-96861",
+      "points" : [ {
+        "id" : "probe-id-96861",
+        "source" : "probe",
+        "label" : "probe",
+        "score" : 1,
+        "occurredAt" : 2.1143484E9
+      } ],
+      "averageScore" : 1.0,
+      "count" : 1
+    },
+    "capturedSqlIds" : [ "sql-get-internal-analytics-mood-userid-s200-1-1" ],
+    "capturedHttpCallIds" : [ ],
+    "branchesTaken" : [ ],
+    "discoveredBy" : "heuristic",
+    "constraints" : [ ],
+    "validationWarnings" : [ ],
+    "requiredSeedIds" : [ "seed-get-internal-analytics-mood-userid-1" ],
+    "capturedEventEmitIds" : [ ]
+  }, {
+    "id" : "get-internal-analytics-mood-userid-s200-2",
+    "endpointId" : "get-internal-analytics-mood-userid",
+    "sampleInput" : { },
+    "expectedStatus" : 200,
+    "sampleResponse" : {
+      "userId" : "missing",
+      "points" : [ ],
+      "averageScore" : 0.0,
+      "count" : 0
+    },
+    "capturedSqlIds" : [ "sql-get-internal-analytics-mood-userid-s200-2-1" ],
+    "capturedHttpCallIds" : [ ],
+    "branchesTaken" : [ ],
+    "discoveredBy" : "heuristic",
+    "constraints" : [ ],
+    "validationWarnings" : [ ],
+    "requiredSeedIds" : [ ],
+    "capturedEventEmitIds" : [ ]
+  }, {
+    "id" : "get-internal-analytics-mood-userid-s404-1",
+    "endpointId" : "get-internal-analytics-mood-userid",
+    "sampleInput" : {
+      "userId" : ""
+    },
+    "expectedStatus" : 404,
+    "sampleResponse" : {
+      "type" : "about:blank",
+      "title" : "Not Found",
+      "status" : 404,
+      "detail" : "No static resource internal/analytics/mood.",
+      "instance" : "/internal/analytics/mood/",
+      "properties" : null
+    },
+    "capturedSqlIds" : [ ],
+    "capturedHttpCallIds" : [ ],
+    "branchesTaken" : [ ],
+    "discoveredBy" : "heuristic",
+    "constraints" : [ ],
+    "validationWarnings" : [ ],
+    "requiredSeedIds" : [ ],
+    "capturedEventEmitIds" : [ ]
+  } ],
+  "sql" : [ {
+    "id" : "sql-kafka-diary-created-x1-1",
+    "pathId" : "kafka-diary-created-x1",
+    "sqlKind" : "SELECT",
+    "normalizedSql" : "select count(*) from mood_point mp1_0 where mp1_0.id=?",
+    "tableName" : "mood_point",
+    "bindings" : [ {
+      "position" : 1,
+      "column" : "id",
+      "value" : "sample-eventId",
+      "origin" : "API_PARAM",
+      "table" : "mood_point"
+    } ]
+  }, {
+    "id" : "sql-kafka-diary-created-x1-2",
+    "pathId" : "kafka-diary-created-x1",
+    "sqlKind" : "SELECT",
+    "normalizedSql" : "select mp1_0.id,mp1_0.label,mp1_0.occurred_at,mp1_0.score,mp1_0.source,mp1_0.user_id from mood_point mp1_0 where mp1_0.id=?",
+    "tableName" : "mood_point",
+    "bindings" : [ {
+      "position" : 1,
+      "column" : "id",
+      "value" : "sample-eventId",
+      "origin" : "API_PARAM",
+      "table" : "mood_point"
+    } ]
+  }, {
+    "id" : "sql-kafka-diary-created-x1-3",
+    "pathId" : "kafka-diary-created-x1",
+    "sqlKind" : "INSERT",
+    "normalizedSql" : "insert into mood_point (label,occurred_at,score,source,user_id,id) values (?,?,?,?,?,?)",
+    "tableName" : "mood_point",
+    "bindings" : [ {
+      "position" : 1,
+      "column" : "label",
+      "value" : "sample-primaryEmotion",
+      "origin" : "API_PARAM",
+      "table" : "mood_point"
+    }, {
+      "position" : 2,
+      "column" : "occurred_at",
+      "value" : "2037-01-01 09:00:00.0",
+      "origin" : "LITERAL",
+      "table" : "mood_point"
+    }, {
+      "position" : 3,
+      "column" : "score",
+      "value" : "1",
+      "origin" : "API_PARAM",
+      "table" : "mood_point"
+    }, {
+      "position" : 4,
+      "column" : "source",
+      "value" : "diary",
+      "origin" : "LITERAL",
+      "table" : "mood_point"
+    }, {
+      "position" : 5,
+      "column" : "user_id",
+      "value" : "sample-userId",
+      "origin" : "API_PARAM",
+      "table" : "mood_point"
+    }, {
+      "position" : 6,
+      "column" : "id",
+      "value" : "sample-eventId",
+      "origin" : "API_PARAM",
+      "table" : "mood_point"
+    } ]
+  }, {
+    "id" : "sql-kafka-diary-created-dup-1",
+    "pathId" : "kafka-diary-created-dup",
+    "sqlKind" : "SELECT",
+    "normalizedSql" : "select count(*) from mood_point mp1_0 where mp1_0.id=?",
+    "tableName" : "mood_point",
+    "bindings" : [ {
+      "position" : 1,
+      "column" : "id",
+      "value" : "sample-eventId",
+      "origin" : "API_PARAM",
+      "table" : "mood_point"
+    } ]
+  }, {
+    "id" : "sql-kafka-mood-logged-x1-1",
+    "pathId" : "kafka-mood-logged-x1",
+    "sqlKind" : "SELECT",
+    "normalizedSql" : "select count(*) from mood_point mp1_0 where mp1_0.id=?",
+    "tableName" : "mood_point",
+    "bindings" : [ {
+      "position" : 1,
+      "column" : "id",
+      "value" : "sample-eventId",
+      "origin" : "API_PARAM",
+      "table" : "mood_point"
+    } ]
+  }, {
+    "id" : "sql-kafka-post-created-x1-1",
+    "pathId" : "kafka-post-created-x1",
+    "sqlKind" : "SELECT",
+    "normalizedSql" : "select count(*) from mood_point mp1_0 where mp1_0.id=?",
+    "tableName" : "mood_point",
+    "bindings" : [ {
+      "position" : 1,
+      "column" : "id",
+      "value" : "sample-eventId",
+      "origin" : "API_PARAM",
+      "table" : "mood_point"
+    } ]
+  }, {
+    "id" : "sql-get-internal-analytics-global-s200-1-1",
+    "pathId" : "get-internal-analytics-global-s200-1",
+    "sqlKind" : "SELECT",
+    "normalizedSql" : "select count(mp1_0.id) from mood_point mp1_0",
+    "tableName" : "mood_point",
+    "bindings" : [ ]
+  }, {
+    "id" : "sql-get-internal-analytics-global-s200-1-2",
+    "pathId" : "get-internal-analytics-global-s200-1",
+    "sqlKind" : "SELECT",
+    "normalizedSql" : "select mp1_0.source,count(mp1_0.id) from mood_point mp1_0 group by mp1_0.source",
+    "tableName" : "mood_point",
+    "bindings" : [ ]
+  }, {
+    "id" : "sql-get-internal-analytics-mood-userid-s200-1-1",
+    "pathId" : "get-internal-analytics-mood-userid-s200-1",
+    "sqlKind" : "SELECT",
+    "normalizedSql" : "select mp1_0.id,mp1_0.label,mp1_0.occurred_at,mp1_0.score,mp1_0.source,mp1_0.user_id from mood_point mp1_0 where mp1_0.user_id=? order by mp1_0.occurred_at",
+    "tableName" : "mood_point",
+    "bindings" : [ {
+      "position" : 1,
+      "column" : "user_id",
+      "value" : "probe-userId-96861",
+      "origin" : "API_PARAM",
+      "table" : "mood_point"
+    } ]
+  }, {
+    "id" : "sql-get-internal-analytics-mood-userid-s200-2-1",
+    "pathId" : "get-internal-analytics-mood-userid-s200-2",
+    "sqlKind" : "SELECT",
+    "normalizedSql" : "select mp1_0.id,mp1_0.label,mp1_0.occurred_at,mp1_0.score,mp1_0.source,mp1_0.user_id from mood_point mp1_0 where mp1_0.user_id=? order by mp1_0.occurred_at",
+    "tableName" : "mood_point",
+    "bindings" : [ {
+      "position" : 1,
+      "column" : "user_id",
+      "value" : "missing",
+      "origin" : "LITERAL",
+      "table" : "mood_point"
+    } ]
+  } ],
+  "tables" : [ {
+    "name" : "mood_point",
+    "columns" : [ {
+      "name" : "id",
+      "jdbcType" : "VARCHAR",
+      "nullable" : false,
+      "primaryKey" : true,
+      "autoIncrement" : false
+    }, {
+      "name" : "label",
+      "jdbcType" : "VARCHAR",
+      "nullable" : false,
+      "primaryKey" : false,
+      "autoIncrement" : false
+    }, {
+      "name" : "occurred_at",
+      "jdbcType" : "TIMESTAMPTZ",
+      "nullable" : false,
+      "primaryKey" : false,
+      "autoIncrement" : false
+    }, {
+      "name" : "score",
+      "jdbcType" : "INT4",
+      "nullable" : false,
+      "primaryKey" : false,
+      "autoIncrement" : false
+    }, {
+      "name" : "source",
+      "jdbcType" : "VARCHAR",
+      "nullable" : false,
+      "primaryKey" : false,
+      "autoIncrement" : false
+    }, {
+      "name" : "user_id",
+      "jdbcType" : "VARCHAR",
+      "nullable" : false,
+      "primaryKey" : false,
+      "autoIncrement" : false
+    } ],
+    "foreignKeys" : [ ],
+    "uniqueKeys" : [ [ "id" ] ]
+  } ],
+  "mappers" : [ ],
+  "httpCalls" : [ ],
+  "wsEndpoints" : [ ],
+  "wsExchanges" : [ ],
+  "kafkaConsumers" : [ {
+    "id" : "kafka-diary-created",
+    "topic" : "diary.created",
+    "groupId" : "${spring.kafka.consumer.group-id}",
+    "handlerClass" : "com.tainted.analytics.listener.AnalyticsKafkaListener",
+    "handlerMethod" : "onDiaryCreated",
+    "payloadType" : "com.tainted.analytics.event.DiaryCreatedEvent"
+  }, {
+    "id" : "kafka-mood-logged",
+    "topic" : "mood.logged",
+    "groupId" : "${spring.kafka.consumer.group-id}",
+    "handlerClass" : "com.tainted.analytics.listener.AnalyticsKafkaListener",
+    "handlerMethod" : "onMoodLogged",
+    "payloadType" : "com.tainted.analytics.event.MoodLoggedEvent"
+  }, {
+    "id" : "kafka-post-created",
+    "topic" : "post.created",
+    "groupId" : "${spring.kafka.consumer.group-id}",
+    "handlerClass" : "com.tainted.analytics.listener.AnalyticsKafkaListener",
+    "handlerMethod" : "onPostCreated",
+    "payloadType" : "com.tainted.analytics.event.PostCreatedEvent"
+  } ],
+  "kafkaExchanges" : [ {
+    "id" : "kafka-diary-created-x1",
+    "kafkaConsumerId" : "kafka-diary-created",
+    "topic" : "diary.created",
+    "payload" : {
+      "eventId" : "sample-eventId",
+      "userId" : "sample-userId",
+      "diaryId" : "sample-diaryId",
+      "primaryEmotion" : "sample-primaryEmotion",
+      "energyScore" : 1,
+      "occurredAt" : "2037-01-01T00:00:00Z"
+    },
+    "capturedSqlIds" : [ "sql-kafka-diary-created-x1-1", "sql-kafka-diary-created-x1-2", "sql-kafka-diary-created-x1-3" ],
+    "variant" : false
+  }, {
+    "id" : "kafka-diary-created-missing",
+    "kafkaConsumerId" : "kafka-diary-created",
+    "topic" : "diary.created",
+    "payload" : { },
+    "capturedSqlIds" : [ ],
+    "variant" : true
+  }, {
+    "id" : "kafka-diary-created-dup",
+    "kafkaConsumerId" : "kafka-diary-created",
+    "topic" : "diary.created",
+    "payload" : {
+      "eventId" : "sample-eventId",
+      "userId" : "sample-userId",
+      "diaryId" : "sample-diaryId",
+      "primaryEmotion" : "sample-primaryEmotion",
+      "energyScore" : 1,
+      "occurredAt" : "2037-01-01T00:00:00Z"
+    },
+    "capturedSqlIds" : [ "sql-kafka-diary-created-dup-1" ],
+    "variant" : true
+  }, {
+    "id" : "kafka-mood-logged-x1",
+    "kafkaConsumerId" : "kafka-mood-logged",
+    "topic" : "mood.logged",
+    "payload" : {
+      "eventId" : "sample-eventId",
+      "userId" : "sample-userId",
+      "source" : "sample-source",
+      "mood" : "sample-mood",
+      "score" : 1,
+      "occurredAt" : "2037-01-01T00:00:00Z"
+    },
+    "capturedSqlIds" : [ "sql-kafka-mood-logged-x1-1" ],
+    "variant" : false
+  }, {
+    "id" : "kafka-mood-logged-missing",
+    "kafkaConsumerId" : "kafka-mood-logged",
+    "topic" : "mood.logged",
+    "payload" : { },
+    "capturedSqlIds" : [ ],
+    "variant" : true
+  }, {
+    "id" : "kafka-post-created-x1",
+    "kafkaConsumerId" : "kafka-post-created",
+    "topic" : "post.created",
+    "payload" : {
+      "eventId" : "sample-eventId",
+      "postId" : "sample-postId",
+      "userId" : "sample-userId",
+      "category" : "sample-category",
+      "moodEmoji" : "sample-moodEmoji",
+      "occurredAt" : "2037-01-01T00:00:00Z"
+    },
+    "capturedSqlIds" : [ "sql-kafka-post-created-x1-1" ],
+    "variant" : false
+  }, {
+    "id" : "kafka-post-created-missing",
+    "kafkaConsumerId" : "kafka-post-created",
+    "topic" : "post.created",
+    "payload" : { },
+    "capturedSqlIds" : [ ],
+    "variant" : true
+  } ],
+  "seeds" : [ {
+    "id" : "seed-get-internal-analytics-global-1",
+    "pathId" : "get-internal-analytics-global-s200-1",
+    "table" : "mood_point",
+    "columns" : [ "id", "label", "occurred_at", "score", "source", "user_id" ],
+    "values" : [ "probe-id-95836", "probe", "2037-01-01T00:00", "1", "probe", "probe" ]
+  }, {
+    "id" : "seed-get-internal-analytics-mood-userid-1",
+    "pathId" : "get-internal-analytics-mood-userid-s200-1",
+    "table" : "mood_point",
+    "columns" : [ "id", "label", "occurred_at", "score", "source", "user_id" ],
+    "values" : [ "probe-id-96861", "probe", "2037-01-01T00:00", "1", "probe", "probe-userId-96861" ]
+  } ],
+  "capturedEventEmits" : [ ]
+}
