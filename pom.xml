@@ -41,6 +41,55 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.12</version>
+        <configuration>
+          <excludes>
+            <!-- Spring Boot 진입점: main() 한 줄 + 부트스트랩, 단위 테스트 대상 아님 -->
+            <exclude>**/*Application.*</exclude>
+            <!-- 프레임워크 설정 빈(@Configuration): 선언적 와이어링/외부 라이브러리 설정 -->
+            <exclude>**/config/**</exclude>
+          </excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>check</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <rule>
+                  <element>BUNDLE</element>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.80</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -62,7 +111,8 @@
                 <DOCKER_HOST>unix:///Users/changjoonbaek/.docker/run/docker.sock</DOCKER_HOST>
                 <TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE>/Users/changjoonbaek/.docker/run/docker.sock</TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE>
               </environmentVariables>
-              <argLine>-DDOCKER_HOST=unix:///Users/changjoonbaek/.docker/run/docker.sock</argLine>
+              <!-- @{argLine}: JaCoCo prepare-agent 가 주입한 agent argLine 을 보존하면서 DOCKER_HOST 를 덧붙인다 -->
+              <argLine>@{argLine} -DDOCKER_HOST=unix:///Users/changjoonbaek/.docker/run/docker.sock</argLine>
             </configuration>
           </plugin>
         </plugins>
