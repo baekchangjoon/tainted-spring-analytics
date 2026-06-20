@@ -1,0 +1,6 @@
+{
+  "endpointId": "get-internal-analytics-global",
+  "testClassName": "AnalyticsGlobalGetTest",
+  "packageName": "io.graphrag.generated.analytics",
+  "authMode": "DISABLED"
+}
